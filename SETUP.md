@@ -16,15 +16,20 @@ This repository contains the implementation steps and configurations for deployi
 ### 1. Sign Up for Nirmata
 
 1. Visit [try.nirmata.io](https://try.nirmata.io)
+![Sign Up to Nirmata](images/try-nirmata-io.png)
 2. Complete the registration process
 3. Follow the verification steps in your email
 4. Log in to your Nirmata account
+![Nirmata Landing Page](images/nirmata.io.png)
 
 #### 1.1 Generate API key for the cluster regestration
 
 1. Navigate to the User Profile [Profile](https://www.nirmata.io/webclient/#profile)
 2. Click on the generate API Key button
+![Generate API Key](images/generate-api-key-nirmata.png)
 3. Copy the generated API key and keep it for next steps. 
+
+
 
 ### 2. Deploy Required Components
 
