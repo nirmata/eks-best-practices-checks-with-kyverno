@@ -1,0 +1,20 @@
+apiVersion: security.nirmata.io/v1alpha1
+kind: PolicySet
+metadata:
+  annotations:
+    meta.helm.sh/release-name: kyverno-operator
+    meta.helm.sh/release-namespace: nirmata-system
+  labels:
+    app.kubernetes.io/instance: eks-security-best-practice-policyset
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: policyset
+    app.kubernetes.io/part-of: nirmata-kyverno-operator
+  name: eks-security-best-practice-policyset
+  namespace: nirmata-system
+spec:
+  source:
+    helm:
+      chartName: eks-security-best-practice
+      chartRepo: https://github.com/nirmata/eks-best-practices-checks-with-kyverno.git
+      passwordSecret: 
+      version: 0.1.0
