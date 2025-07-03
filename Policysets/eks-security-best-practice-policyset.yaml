@@ -14,7 +14,7 @@ metadata:
 spec:
   source:
     helm:
-      chartName: eks-security-best-practice
-      chartRepo: https://github.com/nirmata/eks-best-practices-checks-with-kyverno
+      chartName: eks-best-practices-checks-with-kyverno
+      chartRepo: https://nirmata.github.io/eks-best-practices-checks-with-kyverno/
       passwordSecret: 
       version: 0.1.0
