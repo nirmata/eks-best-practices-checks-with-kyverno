@@ -18,9 +18,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
-      
-      - name: List files in workspace
-        run: ls -la $GITHUB_WORKSPACE
 
       - name: Set environment variables
         id: set-variables
@@ -44,7 +41,7 @@ jobs:
       - name: Package and push helm chart
         run: |
           helm package $GITHUB_WORKSPACE/Charts/eks-security-best-practice --version ${{ steps.set-variables.outputs.VERSION }}
-          helm push $GITHUB_WORKSPACE/eks-security-best-practice-${{ steps.set-variables.outputs.VERSION }}.tgz oci://${{ steps.set-variables.outputs.REPOSITORY }}/charts          
+          helm push $GITHUB_WORKSPACE/eks-security-best-practice-${{ steps.set-variables.outputs.VERSION }}.tgz oci://${{ steps.set-variables.outputs.REPOSITORY }}/Charts          
   
   publish-helm-chart:
     permissions:
