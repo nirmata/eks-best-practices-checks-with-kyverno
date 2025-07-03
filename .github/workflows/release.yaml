@@ -23,7 +23,7 @@ jobs:
         id: set-variables
         run: |
           echo "REPOSITORY=ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
-          echo "VERSION=$(yq -r .version $GITHUB_WORKSPACE/Charts/eks-security-best-practice/Chart.yaml)" >> "$GITHUB_OUTPUT"          
+          echo "VERSION=$(yq -r .version $GITHUB_WORKSPACE/charts/eks-security-best-practice/Chart.yaml)" >> "$GITHUB_OUTPUT"          
 
       - name: Env variable output
         id: test-variables
@@ -40,8 +40,8 @@ jobs:
 
       - name: Package and push helm chart
         run: |
-          helm package $GITHUB_WORKSPACE/Charts/eks-security-best-practice --version ${{ steps.set-variables.outputs.VERSION }}
-          helm push $GITHUB_WORKSPACE/eks-security-best-practice-${{ steps.set-variables.outputs.VERSION }}.tgz oci://${{ steps.set-variables.outputs.REPOSITORY }}/Charts          
+          helm package $GITHUB_WORKSPACE/charts/eks-security-best-practice --version ${{ steps.set-variables.outputs.VERSION }}
+          helm push $GITHUB_WORKSPACE/eks-security-best-practice-${{ steps.set-variables.outputs.VERSION }}.tgz oci://${{ steps.set-variables.outputs.REPOSITORY }}/charts          
   
   publish-helm-chart:
     permissions:
@@ -61,5 +61,5 @@ jobs:
       - name: Publish Helm chart to GitHub Pages
         uses: stefanprodan/helm-gh-pages@0ad2bb377311d61ac04ad9eb6f252fb68e207260 # v1.7.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GHA_TOKEN }}
           linting: off
