@@ -25,7 +25,7 @@ jobs:
         id: set-variables
         run: |
           echo "REPOSITORY=ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
-          echo "VERSION=$(yq -r .version ./charts/eks-security-best-practice/Chart.yaml)" >> "$GITHUB_OUTPUT"          
+          echo "VERSION=$(yq -r .version ./eks-security-best-practice/Chart.yaml)" >> "$GITHUB_OUTPUT"          
 
       - name: Env variable output
         id: test-variables
@@ -42,7 +42,7 @@ jobs:
 
       - name: Package and push helm chart
         run: |
-          helm package ./charts/eks-security-best-practice --version ${{ steps.set-variables.outputs.VERSION }}
+          helm package ./eks-security-best-practice --version ${{ steps.set-variables.outputs.VERSION }}
           helm push ./eks-security-best-practice-chart-${{ steps.set-variables.outputs.VERSION }}.tgz oci://${{ steps.set-variables.outputs.REPOSITORY }}/charts          
   
   publish-helm-chart:
