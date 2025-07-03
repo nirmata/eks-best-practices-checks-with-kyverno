@@ -18,6 +18,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+      
+      - name: List files in workspace
+        run: ls -la $GITHUB_WORKSPACE
 
       - name: Set environment variables
         id: set-variables
