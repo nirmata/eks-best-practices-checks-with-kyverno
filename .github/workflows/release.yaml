@@ -1,22 +1,67 @@
-name: Release Helm Charts
+name: package-helm-chart
+
 on:
   push:
     branches:
       - main
+    paths:
+      - 'charts/**'
+  
+  workflow_dispatch:
 
 jobs:
-  release:
+  package-helm-chart:
+    permissions:
+      contents: read
+      packages: write
+
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - name: Configure Git user
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Set environment variables
+        id: set-variables
         run: |
-          git config user.name "$GITHUB_ACTOR"
-          git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-      - name: Run chart-releaser job
-        uses: helm/chart-releaser-action@v1.4.0
-        env:
-          CR_TOKEN: "${{ secrets.GHA_TOKEN }}"
+          echo "REPOSITORY=ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+          echo "VERSION=$(yq -r .version ./charts/eks-security-best-practice/Chart.yaml)" >> "$GITHUB_OUTPUT"          
+
+      - name: Env variable output
+        id: test-variables
+        run: |
+          echo ${{ steps.set-variables.outputs.REPOSITORY }}
+          echo ${{ steps.set-variables.outputs.VERSION }}          
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@e92390c5fb421da1463c202d546fed0ec5c39f20 # v3.1.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHA_TOKEN }}
+
+      - name: Package and push helm chart
+        run: |
+          helm package ./charts/eks-security-best-practice --version ${{ steps.set-variables.outputs.VERSION }}
+          helm push ./eks-security-best-practice-chart-${{ steps.set-variables.outputs.VERSION }}.tgz oci://${{ steps.set-variables.outputs.REPOSITORY }}/charts          
+  
+  publish-helm-chart:
+    permissions:
+      id-token: write
+      packages: write
+      contents: write
+      actions: read
+      deployments: read
+      pull-requests: read
+      
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
+
+      - name: Publish Helm chart to GitHub Pages
+        uses: stefanprodan/helm-gh-pages@0ad2bb377311d61ac04ad9eb6f252fb68e207260 # v1.7.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          linting: off
