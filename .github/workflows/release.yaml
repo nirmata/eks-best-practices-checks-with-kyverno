@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - 'charts/**'
   
   workflow_dispatch:
 
@@ -25,7 +23,7 @@ jobs:
         id: set-variables
         run: |
           echo "REPOSITORY=ghcr.io/$(echo ${{ github.repository }} | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
-          echo "VERSION=$(yq -r .version ./eks-security-best-practice/Chart.yaml)" >> "$GITHUB_OUTPUT"          
+          echo "VERSION=$(yq -r .version ${{ github.repository }}/chart/eks-security-best-practice/Chart.yaml)" >> "$GITHUB_OUTPUT"          
 
       - name: Env variable output
         id: test-variables
@@ -42,8 +40,8 @@ jobs:
 
       - name: Package and push helm chart
         run: |
-          helm package ./eks-security-best-practice --version ${{ steps.set-variables.outputs.VERSION }}
-          helm push ./eks-security-best-practice-chart-${{ steps.set-variables.outputs.VERSION }}.tgz oci://${{ steps.set-variables.outputs.REPOSITORY }}/charts          
+          helm package ${{ github.repository }}/chart/eks-security-best-practice --version ${{ steps.set-variables.outputs.VERSION }}
+          helm push ${{ github.repository }}/chart/eks-security-best-practice-${{ steps.set-variables.outputs.VERSION }}.tgz oci://${{ steps.set-variables.outputs.REPOSITORY }}/charts          
   
   publish-helm-chart:
     permissions:
