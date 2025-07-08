@@ -44,7 +44,7 @@ spec:
     helm:
       chartName: eks-security-best-practice
       chartRepo: https://github.com/nirmata/eks-best-practices-checks-with-kyverno.git
-      version: 0.1.0
+      version: 0.1.1
 ```
 
 ### Step 3: Deploy the Policy Set
@@ -80,13 +80,13 @@ The Kyverno Operator will process the policy set and deploy the policies:
 
 ```bash
 # Check Kyverno Operator logs for policy set processing
-kubectl logs -n nirmata-system -l app.kubernetes.io/name=kyverno-operator -f
+kubectl logs -n nirmata-system -l app.kubernetes.io/name=nirmata-kyverno-operator -f
 
 # Check if policies are being created
-kubectl get policies -A
+kubectl get cpol -A
 
 # Check if policy reports are being generated
-kubectl get policyreports -A
+kubectl get polr -A
 ```
 
 ### Step 6: Verify Individual Policies
@@ -95,7 +95,7 @@ The policy set includes several security policies. Verify they are deployed:
 
 ```bash
 # List all policies
-kubectl get policies -A
+kubectl get cpol -A
 
 # Check specific policies that should be deployed:
 # - namespace-quota-check
@@ -104,7 +104,7 @@ kubectl get policies -A
 # - restrict-wildcard-resources-for-clusterrole
 
 # Get details of a specific policy
-kubectl describe policy namespace-quota-check -n nirmata-system
+kubectl describe cpol namespace-quota-check -n nirmata-system
 ```
 
 ### Step 7: Test Policy Enforcement
@@ -134,10 +134,10 @@ Check for any policy violations:
 
 ```bash
 # Check policy reports for violations
-kubectl get policyreports -A
+kubectl get polr -A
 
 # Get detailed policy report
-kubectl describe policyreport <policy-report-name> -n <namespace>
+kubectl describe polr <policy-report-name> -n <namespace>
 
 # Check cluster policy reports
 kubectl get clusterpolicyreports
@@ -159,7 +159,7 @@ The EKS Security Best Practice Policy Set includes the following policies:
 1. **Policy Set Not Processing**:
    ```bash
    # Check Kyverno Operator logs
-   kubectl logs -n nirmata-system -l app.kubernetes.io/name=kyverno-operator
+   kubectl logs -n nirmata-system -l app.kubernetes.io/name=nirmata-kyverno-operator
    
    # Verify PolicySet CRD exists
    kubectl get crd policysets.security.nirmata.io
@@ -191,13 +191,13 @@ echo "=== Checking Policy Set Status ==="
 kubectl get policyset -n nirmata-system
 
 echo "=== Checking Deployed Policies ==="
-kubectl get policies -A
+kubectl get cpol -A
 
 echo "=== Checking Policy Reports ==="
-kubectl get policyreports -A
+kubectl get polr -A
 
 echo "=== Checking Cluster Policy Reports ==="
-kubectl get clusterpolicyreports
+kubectl get cpolr
 
 echo "=== Checking Kyverno Status ==="
 kubectl get pods -n kyverno
