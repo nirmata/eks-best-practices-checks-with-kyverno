@@ -2,7 +2,7 @@ apiVersion: v2
 name: eks-security-best-practice
 description: EKS Security Best Practice policies
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: 0.1.0
 keywords:
   - kubernetes
