@@ -3,9 +3,9 @@ entries:
   eks-security-best-practice:
   - apiVersion: v2
     appVersion: 0.1.0
-    created: "2025-07-03T12:29:52.087549859Z"
+    created: "2025-07-08T10:02:10.549048584Z"
     description: EKS Security Best Practice policies
-    digest: 973d87280b56811b80a948db110f3c1cab5f4e395e51803fd7103972eb15de89
+    digest: 11865810834ac560d532bc87f86996897f9dc5af48a6d355fc8c5ac6726c5975
     keywords:
     - kubernetes
     - nirmata
@@ -15,8 +15,8 @@ entries:
     - name: Nirmata
       url: https://nirmata.com/
     name: eks-security-best-practice
-    type: library
+    type: application
     urls:
     - https://nirmata.github.io/eks-best-practices-checks-with-kyverno/eks-security-best-practice-0.1.0.tgz
     version: 0.1.0
-generated: "2025-07-03T12:29:52.086935964Z"
+generated: "2025-07-08T10:02:10.548441942Z"
