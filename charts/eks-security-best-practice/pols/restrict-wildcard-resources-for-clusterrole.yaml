@@ -4,7 +4,7 @@ metadata:
   name: restrict-wildcard-resources-clusterrole
   annotations:
     policies.kyverno.io/title: Check for subject like ServiceAccount/User/Group with non compliant ClusterRoles which allow wildcard resource.
-    policies.kyverno.io/category: Security, EKS Best Practices
+    policies.kyverno.io/category: EKS Best Practices
     policies.kyverno.io/severity: critical
     policies.kyverno.io/minversion: 1.12.0
     kyverno.io/kyverno-version: 1.12.0

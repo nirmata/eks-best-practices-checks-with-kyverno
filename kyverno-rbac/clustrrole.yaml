@@ -10,10 +10,10 @@ rules:
 - apiGroups:
   - rbac.authorization.k8s.io
   resources:
-  - clusterrole
-  - clusterrolebinding
-  - role
-  - rolebinding
+  - clusterroles
+  - clusterrolebindings
+  - roles
+  - rolebindings
   verbs:
   - list
   - get
